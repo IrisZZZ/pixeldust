@@ -424,6 +424,7 @@ class PixeldustSimulation {
       if (particles.get(i).isKilled && particles.get(i).isOutOfBounds(0, 0, this.w, this.h)) {
         // Removes particles that are out of bounds and killed
         particles.remove(i);
+      // Commenting out this section prevents snapping of pixels
       } else if (particles.get(i).pos.dist(particles.get(i).target) < 1 && !particles.get(i).isKilled) {
         // Clamps particles to their target if they are very close, checking not killed may be redundant or unnecessary but makes doubly sure we don't clamp to some out of bounds target
         // Note we intentionally allow these particles to be (slightly) out of bounds

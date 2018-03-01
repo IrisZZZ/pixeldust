@@ -68,6 +68,20 @@ class Particle {
   void move(float timeLeft, float frameTime) {
     this.distToTarget = dist(this.pos.x, this.pos.y, this.target.x, this.target.y);
 
+    // Thresholds to stop convergence
+    // Also consider whether or not to zero vel before handing it off, and consider when distance goes back and forth across threshold
+    // Lastly consider whether sim.display is clamping since that will effect final image,
+    // if clamping on then images will tend to converge
+    // <1 causes spastic display of final image
+    // <1 + vel.mult(0) is not enough to consistently stop convergence but final image ok
+    // <2 + vel.mult(0) decent but final image has holes, or else images party converge if clamping on
+    // <2 decent except
+    if (this.distToTarget < 2) {
+      this.vel.mult(0);
+      this.move();
+      return;
+    }
+
     // Steer towards its target.
     if (this.distToTarget > 0) {
       PVector steer = new PVector(this.target.x, this.target.y);
